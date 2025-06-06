@@ -37,6 +37,7 @@ header {
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden; /* Added to ensure header content doesn't cause horizontal scroll */
 }
 
 nav {
@@ -56,9 +57,12 @@ nav {
     color: var(--secondary);
 }
 
+/* Default desktop styles for nav-links */
 .nav-links {
-    display: flex;
+    display: flex; /* Default for desktop */
     list-style: none;
+    /* Added for a smooth transition from mobile to desktop if needed */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s, padding 0.3s, height 0.3s, width 0.3s;
 }
 
 .nav-links li {
@@ -66,7 +70,7 @@ nav {
 }
 
 .nav-links a {
-    color: white;
+    color: white; /* Ensure desktop links are white */
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
@@ -76,10 +80,26 @@ nav {
     color: var(--secondary);
 }
 
+/*
+    -- START FIX FOR MOBILE MENU DISPLAY ISSUE --
+    Adjusted menu-toggle display logic:
+    - Default to `display: block` (mobile-first approach)
+    - Hide it for desktop using `min-width` media query
+*/
 .menu-toggle {
-    display: none;
+    display: block; /* Always visible on mobile first */
     cursor: pointer;
+    z-index: 1001; /* Ensure it's above the nav-links */
 }
+
+/* Hide menu-toggle on larger screens */
+@media (min-width: 769px) {
+    .menu-toggle {
+        display: none;
+    }
+}
+/* -- END FIX FOR MOBILE MENU DISPLAY ISSUE -- */
+
 
 /* Hero Section */
 .hero {
@@ -104,7 +124,7 @@ nav {
     min-height: 120px; /* Reserve space for text, preventing layout shift */
     position: relative;
     overflow: hidden; /* Ensures text is hidden before animation */
-    white-space: nowrap; /* Prevents wrapping initially for animation */
+    /* REMOVED: white-space: nowrap; - allowing text to wrap naturally */
 }
 
 /* Styles for the two-color heading parts */
@@ -609,29 +629,44 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
+    /* No change needed for .menu-toggle here; it's handled by default and min-width */
 
     .nav-links {
         position: fixed;
         top: 70px;
-        left: -50%;
+        left: 0; /* Aligned to the left edge of the viewport */
         width: 50%;
         height: calc(100vh - 80px);
-        background-color: var(--primary);
-        flex-direction: column;
+        background-color: var(--primary); /* Mobile menu background */
+        flex-direction: column; /* Stack links vertically */
         align-items: center;
         padding-top: 40px;
-        transition: left 0.3s;
+        z-index: 999; /* Below header, above other content */
+
+        /* Initial hidden state to prevent flicker */
+        transform: translateX(-100%); /* Off-screen to the left */
+        opacity: 0; /* Completely transparent */
+        visibility: hidden; /* Fully hidden, not just visually */
+        pointer-events: none; /* Prevent clicks when hidden */
+
+        /* Smooth transition for slide and fade (visibility changes instantly) */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     .nav-links.active {
-        left: 0;
+        transform: translateX(0); /* Slide into view */
+        opacity: 1; /* Fade in */
+        visibility: visible; /* Make it visible */
+        pointer-events: auto; /* Enable clicks */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transition for showing */
     }
 
     .nav-links li {
-        margin: 15px 0;
+        margin: 15px 0; /* Adjust spacing for mobile links */
+    }
+
+    .nav-links a {
+        color: white; /* Ensure mobile menu links are white */
     }
 
     .hero h1 {
@@ -655,6 +690,7 @@ footer {
         margin-left: 0;
     }
 
+
     /* Adjust padding for overall sections on smaller screens */
     .section {
         padding: 60px 0; /* Reduced padding for smaller screens */
@@ -673,18 +709,21 @@ footer {
     }
 }
 
-/* New extra code to adjust responsiveness issue goes here */
-@media (max-width: 480px) {
-    /* Extra small device specific styles */
-    .hero h1 {
-        font-size: 28px;
-    }
-    /* Add more overrides as needed */
-}
-
-@media (hover: none) {
-    .portfolio-item:hover .portfolio-overlay {
-        opacity: 1 !important;
+/* Explicitly reset nav-links for desktop view (above 768px) */
+@media (min-width: 769px) {
+    .nav-links {
+        position: static; /* Revert to normal flow */
+        transform: translateX(0); /* Remove any lingering transforms */
+        opacity: 1; /* Ensure visible */
+        visibility: visible; /* Ensure visible */
+        pointer-events: auto; /* Ensure clickable */
+        display: flex; /* Explicitly set back to flex */
+        flex-direction: row; /* Ensure row direction for desktop navigation */
+        padding-top: 0; /* Remove mobile padding */
+        height: auto; /* Reset height */
+        width: auto; /* Reset width */
+        background-color: transparent; /* Remove mobile menu background */
+        z-index: auto; /* Reset z-index */
     }
 }
 
