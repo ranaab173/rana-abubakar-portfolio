@@ -1,0 +1,96 @@
+
+Step 1: Install Git
+Download Git from git-scm.com (Windows/Mac/Linux).
+
+Install it (just keep clicking "Next" with default settings).
+
+Verify installation by opening Command Prompt (Windows) or Terminal (Mac/Linux) and running:
+
+sh
+git --version
+(If you see a version number like git version 2.40.0, it’s installed!)
+
+Step 2: Set Up Git (One-Time Setup)
+Run these commands in your terminal (replace with your GitHub email/username):
+
+sh
+git config --global user.name "Your GitHub Username"
+git config --global user.email "your-email@example.com"
+Step 3: Connect Your Local Files to GitHub
+Go to your project folder (where your HTML/CSS/JS files are).
+
+Right-click the folder and select "Open in Terminal" (or cd into it manually).
+
+Initialize Git (creates a hidden .git folder to track changes):
+
+sh
+git init
+Link to your GitHub repo:
+
+Go to your GitHub repository, click "Code" (green button), and copy the HTTPS URL (e.g., https://github.com/your-username/your-repo.git).
+
+Run this in the terminal (replace with your URL):
+
+sh
+git remote add origin https://github.com/your-username/your-repo.git
+Step 4: Upload Your Files
+Stage all files (prepares them for upload):
+
+sh
+git add .
+(The . means "all files." You can also use git add index.html for specific files.)
+
+Commit the changes (like saving a snapshot with a message):
+
+sh
+git commit -m "First website upload"
+Push to GitHub (uploads files to your repo):
+
+sh
+git push -u origin main
+If you get an error, try git push -u origin master (older repos use master).
+
+If asked, log in with your GitHub username/password (or a Personal Access Token if 2FA is enabled).
+................................................
+Professional Way (Using Git Commands)
+Clone the Repository (if you haven't already):
+
+sh
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+Make Your Changes Locally:
+
+Replace the old files with your updated files (HTML, CSS, JS).
+
+Or modify the existing files.
+
+Check the Changes:
+
+sh
+git status
+(This will show which files were modified/added/deleted.)
+
+Stage All Changes:
+
+sh
+git add .
+(Or selectively add files using git add filename)
+
+Commit the Changes:
+
+sh
+git commit -m "Updated website with new design and functionality"
+Push to GitHub:
+
+sh
+git push origin main
+(Replace main with your branch name if different.)
+......................................................
+When You made changes locally:
+git add .
+git commit -m "Updated navbar and colors"
+git push origin main
+if "git push origin main" does not work
+then
+git push -u origin master
+.........................

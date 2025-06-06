@@ -95,6 +95,7 @@ nav {
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
+    padding: 0 15px; /* Added padding for smaller screens */
 }
 
 .hero h1 {
@@ -337,6 +338,7 @@ nav {
     margin-bottom: 40px;
     flex-wrap: wrap;
     gap: 10px;
+    padding: 0 15px; /* Added padding for smaller screens */
 }
 
 .filter-btn {
@@ -356,8 +358,9 @@ nav {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusted minmax for better fit */
     gap: 30px;
+    padding: 0 15px; /* Added padding for smaller screens */
 }
 
 .portfolio-item {
@@ -426,6 +429,7 @@ nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
+    padding: 0 15px; /* Added padding for smaller screens */
 }
 
 .testimonial-card {
@@ -649,5 +653,22 @@ footer {
 
     .btn-outline {
         margin-left: 0;
+    }
+
+    /* Adjust padding for overall sections on smaller screens */
+    .section {
+        padding: 60px 0; /* Reduced padding for smaller screens */
+    }
+
+    .container {
+        padding: 0 15px; /* Reduced container padding for smaller screens */
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* Stack portfolio items on small screens */
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr; /* Stack testimonials on small screens */
     }
 }
