@@ -1,0 +1,8 @@
+When You made changes locally:
+git add .
+git commit -m "Updated navbar and colors"
+git push origin main
+if "git push origin main" does not work
+then
+git push -u origin master
+.........................

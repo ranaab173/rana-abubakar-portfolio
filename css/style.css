@@ -615,9 +615,9 @@ footer {
 
     .nav-links {
         position: fixed;
-        top: 80px;
-        left: -100%;
-        width: 100%;
+        top: 70px;
+        left: -50%;
+        width: 50%;
         height: calc(100vh - 80px);
         background-color: var(--primary);
         flex-direction: column;
@@ -672,3 +672,21 @@ footer {
         grid-template-columns: 1fr; /* Stack testimonials on small screens */
     }
 }
+
+/* New extra code to adjust responsiveness issue goes here */
+@media (max-width: 480px) {
+    /* Extra small device specific styles */
+    .hero h1 {
+        font-size: 28px;
+    }
+    /* Add more overrides as needed */
+}
+
+@media (hover: none) {
+    .portfolio-item:hover .portfolio-overlay {
+        opacity: 1 !important;
+    }
+}
+
+
+/* New extra code to adjust responsiveness issue ends here */
