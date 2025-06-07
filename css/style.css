@@ -1,3 +1,6 @@
+/* Existing styles from your style.css remain unchanged, only modifying for hero button alignment */
+
+/* Root variables and base styles remain as is */
 :root {
     --primary: #2c3e50;
     --secondary: #3498db;
@@ -85,8 +88,6 @@ nav {
     color: var(--secondary);
 }
 
-
-
 /* Mobile Menu Toggle (Hamburger Icon) */
 .menu-toggle {
     display: block; /* Always visible on mobile-first (default for small screens) */
@@ -100,8 +101,6 @@ nav {
         display: none;
     }
 }
-
-
 
 /* Hero Section */
 .hero {
@@ -172,7 +171,6 @@ nav {
     width: 80px; /* Example: set a target width for the underline */
 }
 
-
 .hero p {
     font-size: 20px;
     margin-bottom: 30px;
@@ -180,6 +178,9 @@ nav {
     opacity: 0; /* Initially hidden */
     transition: opacity 1s ease-in; /* Smooth fade-in for paragraph */
 }
+
+
+
 
 .btn {
     display: inline-block;
@@ -210,6 +211,9 @@ nav {
     background-color: white;
     color: var(--primary);
 }
+
+
+
 
 /* About Section */
 .section {
@@ -646,26 +650,7 @@ footer {
     .nav-links li {
         margin: 15px 0;
     }
-}
-
-/* Explicitly reset nav-links for desktop view */
-@media (min-width: 769px) {
-    .nav-links {
-        display: flex;
-        position: static;
-        transform: none;
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        flex-direction: row;
-        padding-top: 0;
-        height: auto;
-        width: auto;
-        background-color: transparent;
-        z-index: auto;
-    }
-}
-
+    
     .hero h1 {
         font-size: 36px; /* Smaller font size for hero heading */
         min-height: 100px;
@@ -722,4 +707,44 @@ footer {
         background-color: transparent; /* Remove mobile menu background */
         z-index: auto; /* Reset z-index */
     }
+
+    /* Desktop-specific styles for hero buttons */
+    .hero .btn-group {
+        display: flex; /* Ensure it's a flex container for horizontal alignment */
+        justify-content: center; /* Center the buttons within the group */
+        gap: 20px; /* Add space between buttons */
+        max-width: none; /* Remove any max-width that might constrain the group */
+        width: fit-content; /* Allow the group to shrink to fit its content */
+        margin: 0 auto; /* Center the entire button group */
+    }
+
+    .hero .btn {
+        flex-grow: 0; /* Prevent buttons from growing to fill available space */
+        flex-shrink: 0; /* Prevent buttons from shrinking below their content size */
+        width: auto; /* Allow buttons to take their natural width based on content and padding */
+        min-width: 150px; /* Optional: Set a minimum width if you want them to be a certain size */
+        max-width: 200px; /* Optional: Set a maximum width to prevent them from becoming too wide */
+    }
+
+    .hero .btn-outline {
+        margin-left: 0; /* Remove the mobile margin-left for consistency in desktop flex */
+    }
 }
+
+/* New extra code to adjust responsiveness issue goes here */
+@media (max-width: 480px) {
+    /* Extra small device specific styles */
+    .hero h1 {
+        font-size: 28px;
+    }
+    /* Add more overrides as needed */
+}
+
+@media (hover: none) {
+    .portfolio-item:hover .portfolio-overlay {
+        opacity: 1 !important;
+    }
+}
+
+
+/* New extra code to adjust responsiveness issue ends here */
