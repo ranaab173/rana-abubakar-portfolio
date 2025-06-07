@@ -116,6 +116,7 @@ nav {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 15px; /* Added padding for smaller screens */
+    /* Ensure no direct children here can overflow significantly */
 }
 
 .hero h1 {
@@ -124,7 +125,6 @@ nav {
     min-height: 120px; /* Reserve space for text, preventing layout shift */
     position: relative;
     overflow: hidden; /* Ensures text is hidden before animation */
-    /* REMOVED: white-space: nowrap; - allowing text to wrap naturally */
 }
 
 /* Styles for the two-color heading parts */
@@ -148,38 +148,26 @@ nav {
     width: 0; /* Initially hidden */
     max-width: 600px; /* Max width for the underline */
     height: 5px;
-    background-color: transparent; /* Base is transparent; pseudo-element provides color */
+    /* Use a linear-gradient for the background and animate its position */
+    background: linear-gradient(90deg, transparent 0%, var(--secondary) 50%, transparent 100%);
+    background-size: 200% 100%; /* Make the background wider than the element */
+    background-position: 100% 0; /* Start with the gradient off-screen to the right */
     margin: 10px auto 30px; /* Center and position below heading */
     border-radius: 2px;
     position: relative;
-    overflow: hidden; /* Hides the walking line outside its bounds */
-    transition: width 1s ease-out; /* Animation for width expansion */
+    overflow: hidden; /* Keeps the gradient contained */
+    transition: width 1s ease-out, background-position 0.5s ease-in-out; /* Animation for width expansion and background */
 }
 
-.hero-heading-underline.animate-underline::after {
-    opacity: 1; /* Make the walking line visible */
+/* New keyframes for the background-position animation */
+@keyframes underlineBackgroundWalk {
+    0% { background-position: 100% 0; } /* Start right */
+    100% { background-position: -100% 0; } /* End left */
 }
 
-.hero-heading-underline::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; /* The 'walking' line covers the underline width */
-    height: 100%;
-    /* Gradient for the "curved" or "walking" effect */
-    background: linear-gradient(90deg, transparent 0%, var(--secondary) 50%, transparent 100%);
-    border-radius: 2px;
-    transform: translateX(-100%); /* Start off-screen to the left */
-    animation: underlineWalk 2s ease-in-out infinite alternate forwards; /* Animation */
-    opacity: 0; /* Initially hidden, revealed by JS class */
-    transition: opacity 0.5s; /* Smooth reveal of the walking line */
-}
-
-/* Keyframes for the walking line animation */
-@keyframes underlineWalk {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+.hero-heading-underline.animate-underline {
+    /* When active, expand width and start background animation */
+    animation: underlineBackgroundWalk 2s ease-in-out infinite alternate forwards;
 }
 
 
@@ -629,8 +617,6 @@ footer {
 }
 
 @media (max-width: 768px) {
-    /* No change needed for .menu-toggle here; it's handled by default and min-width */
-
     .nav-links {
         position: fixed;
         top: 70px;
@@ -726,6 +712,3 @@ footer {
         z-index: auto; /* Reset z-index */
     }
 }
-
-
-/* New extra code to adjust responsiveness issue ends here */
