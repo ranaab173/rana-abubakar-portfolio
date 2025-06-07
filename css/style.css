@@ -7,6 +7,11 @@
     --gray: #95a5a6;
 }
 
+/* Added to prevent horizontal overflow */
+html, body {
+    overflow-x: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +42,6 @@ header {
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    overflow: hidden; /* Added to ensure header content doesn't cause horizontal scroll */
 }
 
 nav {
@@ -59,10 +63,11 @@ nav {
 
 /* Default desktop styles for nav-links */
 .nav-links {
-    display: flex; /* Default for desktop */
+    display: flex; /* Default for desktop (horizontal) */
     list-style: none;
-    /* Added for a smooth transition from mobile to desktop if needed */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s, padding 0.3s, height 0.3s, width 0.3s;
+    /* Smooth transition for properties that change when menu slides/fades */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, 
+                background-color 0.3s, padding 0.3s, height 0.3s, width 0.3s;
 }
 
 .nav-links li {
@@ -80,25 +85,22 @@ nav {
     color: var(--secondary);
 }
 
-/*
-    -- START FIX FOR MOBILE MENU DISPLAY ISSUE --
-    Adjusted menu-toggle display logic:
-    - Default to `display: block` (mobile-first approach)
-    - Hide it for desktop using `min-width` media query
-*/
+
+
+/* Mobile Menu Toggle (Hamburger Icon) */
 .menu-toggle {
-    display: block; /* Always visible on mobile first */
+    display: block; /* Always visible on mobile-first (default for small screens) */
     cursor: pointer;
-    z-index: 1001; /* Ensure it's above the nav-links */
+    z-index: 1001; /* Ensure it's above the nav-links when menu is open */
 }
 
-/* Hide menu-toggle on larger screens */
+/* Hide menu-toggle on larger screens (desktop) */
 @media (min-width: 769px) {
     .menu-toggle {
         display: none;
     }
 }
-/* -- END FIX FOR MOBILE MENU DISPLAY ISSUE -- */
+
 
 
 /* Hero Section */
@@ -109,14 +111,13 @@ nav {
     background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
     color: white;
     text-align: center;
-    padding-top: 80px;
+    padding-top: 80px; /* Account for fixed header */
 }
 
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 15px; /* Added padding for smaller screens */
-    /* Ensure no direct children here can overflow significantly */
 }
 
 .hero h1 {
@@ -156,7 +157,7 @@ nav {
     border-radius: 2px;
     position: relative;
     overflow: hidden; /* Keeps the gradient contained */
-    transition: width 1s ease-out, background-position 0.5s ease-in-out; /* Animation for width expansion and background */
+    transition: width 1s ease-out; /* Animation for width expansion */
 }
 
 /* New keyframes for the background-position animation */
@@ -168,6 +169,7 @@ nav {
 .hero-heading-underline.animate-underline {
     /* When active, expand width and start background animation */
     animation: underlineBackgroundWalk 2s ease-in-out infinite alternate forwards;
+    width: 80px; /* Example: set a target width for the underline */
 }
 
 
@@ -606,76 +608,84 @@ footer {
 }
 
 /* Responsive Styles */
+
+/* Styles for screens up to 992px wide (e.g., tablets and smaller laptops) */
 @media (max-width: 992px) {
     .about-content {
-        flex-direction: column;
+        flex-direction: column; /* Stack about content vertically */
     }
 
     .contact-content {
-        flex-direction: column;
+        flex-direction: column; /* Stack contact content vertically */
     }
 }
 
+/* Mobile menu styles - fixed the positioning */
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
         top: 70px;
-        left: 0; /* Aligned to the left edge of the viewport */
-        width: 50%;
+        left: 0;
+        width: 50%; /* Changed to full width */
         height: calc(100vh - 80px);
-        background-color: var(--primary); /* Mobile menu background */
-        flex-direction: column; /* Stack links vertically */
+        background-color: var(--primary);
+        flex-direction: column;
         align-items: center;
         padding-top: 40px;
-        z-index: 999; /* Below header, above other content */
-
-        /* Initial hidden state to prevent flicker */
-        transform: translateX(-100%); /* Off-screen to the left */
-        opacity: 0; /* Completely transparent */
-        visibility: hidden; /* Fully hidden, not just visually */
-        pointer-events: none; /* Prevent clicks when hidden */
-
-        /* Smooth transition for slide and fade (visibility changes instantly) */
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        z-index: 999;
+        display: none; /* Start hidden */
+        opacity: 0; /* Start transparent */
+        transition: opacity 0.3s ease-in-out;
     }
 
     .nav-links.active {
-        transform: translateX(0); /* Slide into view */
+        display: flex; /* Show when active */
         opacity: 1; /* Fade in */
-        visibility: visible; /* Make it visible */
-        pointer-events: auto; /* Enable clicks */
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transition for showing */
     }
 
     .nav-links li {
-        margin: 15px 0; /* Adjust spacing for mobile links */
+        margin: 15px 0;
     }
+}
 
-    .nav-links a {
-        color: white; /* Ensure mobile menu links are white */
+/* Explicitly reset nav-links for desktop view */
+@media (min-width: 769px) {
+    .nav-links {
+        display: flex;
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        flex-direction: row;
+        padding-top: 0;
+        height: auto;
+        width: auto;
+        background-color: transparent;
+        z-index: auto;
     }
+}
 
     .hero h1 {
-        font-size: 36px;
+        font-size: 36px; /* Smaller font size for hero heading */
         min-height: 100px;
         white-space: normal; /* Allow text to wrap on small screens */
     }
 
     .hero p {
-        font-size: 18px;
+        font-size: 18px; /* Smaller font size for hero paragraph */
         min-height: 80px;
     }
 
     .btn-group {
         display: flex;
-        flex-direction: column;
+        flex-direction: column; /* Stack buttons vertically */
         gap: 15px;
     }
 
     .btn-outline {
-        margin-left: 0;
+        margin-left: 0; /* Remove left margin for stacked buttons */
     }
-
 
     /* Adjust padding for overall sections on smaller screens */
     .section {
@@ -696,6 +706,7 @@ footer {
 }
 
 /* Explicitly reset nav-links for desktop view (above 768px) */
+/* This ensures mobile-specific styles are removed when resizing to larger screens */
 @media (min-width: 769px) {
     .nav-links {
         position: static; /* Revert to normal flow */
@@ -703,7 +714,7 @@ footer {
         opacity: 1; /* Ensure visible */
         visibility: visible; /* Ensure visible */
         pointer-events: auto; /* Ensure clickable */
-        display: flex; /* Explicitly set back to flex */
+        display: flex; /* Explicitly set back to flex (horizontal) */
         flex-direction: row; /* Ensure row direction for desktop navigation */
         padding-top: 0; /* Remove mobile padding */
         height: auto; /* Reset height */
