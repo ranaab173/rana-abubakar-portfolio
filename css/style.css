@@ -305,11 +305,20 @@ nav {
     font-size: 14px;
 }
 
+/* Testing Hover Effect */
+.skill-tag:hover {
+    background-color: var(--glass-highlight);
+    color: black; 
+     border: solid 1px grey; 
+    transform: translateY(-2px);
+}
+/* Hover effect ends here */
+
+
 /* Services Section */
 .services {
     background-color: #f9f9f9;
 }
-
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
