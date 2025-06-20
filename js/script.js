@@ -13,21 +13,6 @@ navLinks.querySelectorAll('a').forEach(link => {
     });
 });
 
-// NEW: Close menu when clicking anywhere outside the menu
-document.addEventListener('click', (e) => {
-    const isClickInsideMenu = navLinks.contains(e.target) || menuToggle.contains(e.target);
-    if (!isClickInsideMenu && navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-    }
-});
-
-// NEW: Close menu when scrolling
-window.addEventListener('scroll', () => {
-    if (navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-    }
-});
-// ... rest of your existing JavaScript code ...
 
 // Portfolio Filtering
 const filterButtons = document.querySelectorAll('.filter-btn');
